@@ -1,0 +1,24 @@
+{
+  "name": "discordrpggame",
+  "version": "1.0.0",
+  "description": "RPG Game For Discord # Tesseract Tavern — The Bible v0.2 (PRD + README)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node build/bot.js",
+    "dev": "nodemon src/bot.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "discord.js": "^14.21.0",
+    "dotenv": "^17.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  }
+}
