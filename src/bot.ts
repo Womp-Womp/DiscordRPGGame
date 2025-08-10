@@ -3,6 +3,7 @@ import { readdirSync } from 'fs';
 import path from 'path';
 import config from './config';
 import type { Command } from './types';
+import { setupRoleSync } from './watchers/roleSync';
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 const commands = new Collection<string, Command>();
@@ -41,6 +42,7 @@ async function loadEvents(): Promise<void> {
 async function main(): Promise<void> {
   await loadCommands();
   await loadEvents();
+  await setupRoleSync(client);
   await client.login(config.discordToken);
 }
 
