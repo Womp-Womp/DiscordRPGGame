@@ -4,9 +4,10 @@
   "description": "RPG Game For Discord # Tesseract Tavern — The Bible v0.2 (PRD + README)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --passWithNoTests",
     "start": "node build/bot.js",
-    "dev": "nodemon src/bot.ts"
+    "dev": "nodemon src/bot.ts",
+    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint --config .eslintrc.json . --ext .ts"
   },
   "keywords": [],
   "author": "",
@@ -19,7 +20,14 @@
     "express": "^5.1.0"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.39.0",
+    "@typescript-eslint/parser": "^8.39.0",
+    "eslint": "^9.33.0",
+    "jest": "^30.0.5",
     "nodemon": "^3.1.10",
+    "prettier": "^3.6.2",
+    "ts-jest": "^29.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   }
