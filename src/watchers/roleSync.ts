@@ -10,6 +10,7 @@ const ROLE_PERKS: Record<string, string> = {
 };
 
 const GRACE_PERIOD_MS = 72 * 60 * 60 * 1000; // 72 hours
+const CLEANUP_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
 const STORE_PATH = path.join(__dirname, '../../data/entitlements.json');
 
 interface PerkInfo {
@@ -41,12 +42,38 @@ async function writeStore(store: EntitlementStore): Promise<void> {
 export async function setupRoleSync(client: Client): Promise<void> {
   const entitlements = await readStore();
 
+  async function cleanupExpired(): Promise<void> {
+    const now = Date.now();
+    let changed = false;
+    for (const [userId, perks] of Object.entries(entitlements)) {
+      for (const [perk, info] of Object.entries(perks)) {
+        if (info.expiresAt && info.expiresAt <= now) {
+          delete perks[perk];
+          changed = true;
+        }
+      }
+      if (Object.keys(perks).length === 0) {
+        delete entitlements[userId];
+        changed = true;
+      }
+    }
+    if (changed) {
+      await writeStore(entitlements);
+    }
+  }
+
+  // Initial cleanup and scheduled cleanup for expired entitlements
+  await cleanupExpired();
+  setInterval(() => {
+    void cleanupExpired();
+  }, CLEANUP_INTERVAL_MS);
+
   client.on('guildMemberUpdate', async (oldMember: GuildMember, newMember: GuildMember) => {
     const now = Date.now();
     const userId = newMember.id;
     const userEntitlements = entitlements[userId] ?? {};
 
-    // Remove expired entitlements
+    // Remove expired entitlements for this user
     for (const [perk, info] of Object.entries(userEntitlements)) {
       if (info.expiresAt && info.expiresAt <= now) {
         delete userEntitlements[perk];
