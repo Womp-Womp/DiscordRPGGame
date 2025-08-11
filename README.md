@@ -4,6 +4,17 @@ RPG Game For Discord
 
 > **Tagline:** *A Discord-native, headless-first, AI-authored D\&D sandbox with factorio-grade factories, emoji bases, emergent politics, and numbers that outrun common sense.*
 
+## Environment Setup
+
+1. Copy `.env.example` to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+2. Fill in the environment variables:
+   - `DISCORD_TOKEN`: Bot token from the Discord Developer Portal.
+   - `CLIENT_ID`: Discord application client ID.
+   - `DATABASE_URL`: Database connection string for your database (e.g., `postgresql://user:password@localhost:5432/database`).
+
 ---
 
 ## 0) Version & Changelog (v0.2)
