@@ -1,11 +1,14 @@
-import { Client, GatewayIntentBits, Collection, REST, Routes } from 'discord.js';
+import { Client, GatewayIntentBits, Collection, REST, Routes, Partials } from 'discord.js';
 import { readdirSync } from 'fs';
 import path from 'path';
 import config from './config';
 import type { Command } from './types';
 import { setupRoleSync } from './watchers/roleSync';
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers],
+  partials: [Partials.User, Partials.GuildMember],
+});
 const commands = new Collection<string, Command>();
 
 async function loadCommands(): Promise<void> {
